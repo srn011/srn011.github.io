@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Test Driven Development in Node.js with Mocha | Your awesome title</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Test Driven Development in Node.js with Mocha" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Test Driven Development (TDD) is a software development process where Tests are written first based on requirement specifications before writing functional code.The developer writes an automated test that defines desired specification first and then writes the functional code to pass the test, one way to think about it is tests are used for specification rather than validation, this has many advantages" />
+<meta property="og:description" content="Test Driven Development (TDD) is a software development process where Tests are written first based on requirement specifications before writing functional code.The developer writes an automated test that defines desired specification first and then writes the functional code to pass the test, one way to think about it is tests are used for specification rather than validation, this has many advantages" />
+<link rel="canonical" href="http://localhost:4000/2019/02/24/test-driven-development-in-node-js-with-mocha.html" />
+<meta property="og:url" content="http://localhost:4000/2019/02/24/test-driven-development-in-node-js-with-mocha.html" />
+<meta property="og:site_name" content="Your awesome title" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-02-24T00:00:00+05:30" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","dateModified":"2019-02-24T00:00:00+05:30","datePublished":"2019-02-24T00:00:00+05:30","headline":"Test Driven Development in Node.js with Mocha","url":"http://localhost:4000/2019/02/24/test-driven-development-in-node-js-with-mocha.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/02/24/test-driven-development-in-node-js-with-mocha.html"},"description":"Test Driven Development (TDD) is a software development process where Tests are written first based on requirement specifications before writing functional code.The developer writes an automated test that defines desired specification first and then writes the functional code to pass the test, one way to think about it is tests are used for specification rather than validation, this has many advantages","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Your awesome title" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Your awesome title</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Test Driven Development in Node.js with Mocha</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-02-24T00:00:00+05:30" itemprop="datePublished">Feb 24, 2019
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Test Driven Development (TDD) is a software development process where Tests are written first based on requirement specifications before writing functional code.The developer writes an automated test that defines desired specification first and then writes the functional code to pass the test, one way to think about it is tests are used for specification rather than validation, this has many advantages</p>
+
+<ul>
+  <li><strong>Specification</strong>: For developers when writing new code the test specifies the list of features that need to be implemented or acceptance criteria that needs to be met</li>
+  <li><strong>Refactoring</strong>: Once a test case has passed for a functional unit, we can safely <a href="https://martinfowler.com/books/refactoring.html">refactor</a> the code with the knowledge that the test cases will have our back, Tests are very vital especially when refactoring other developers code, to ensure that we do not break the functionality. Tests give us the confidence that you can change things without breaking something</li>
+  <li><strong>Fewer bugs</strong>: The initial cost of TDD may be high when compared to not writing any test, but will produce fewer bugs, in the long run, TDD not only saves time on fixing bugs it also saves time introducing new functionality as the tests act as a safety net that ensures new changes won’t break existing functionality</li>
+  <li><strong>Easier Dependency management</strong>: Tests allows developers to easily change or upgrade external dependencies while making sure the module still works correctly</li>
+  <li><strong>Documentation</strong>: When tests are written properly, they can be used as documentation for the project</li>
+  <li><strong>Design</strong>:it makes you to think about the design of the application up front, it gives due consideration to APIs and structure of your code.   Writing the test before the code, makes you think up front of how you will invoke your code and get the result back. This means you design the API <em>first</em> based on how you will use it. This frequently results in a better API.</li>
+  <li><strong>Quick deployment</strong>: TDD will enable you to release early and often, as you constantly go green in your tests.</li>
+</ul>
+
+<p><a href="https://mochajs.org/">Mocha</a> is JavaScript testing framework which runs on Node.js and also in the browser, mocha simplifies synchronous and asynchronous testing. If you are getting started with Test driven development the Mocha is your choice.</p>
+
+<p>In mocha we use <code class="highlighter-rouge">describe</code> function which is a  <a href="https://en.wikipedia.org/wiki/Test_suite">Test Suite</a> where we group related tests together:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s2">"test suite description goes here"</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+  <span class="c1">// individual tests go here</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>And then each individual test is defined within a call to the <code class="highlighter-rouge">it</code> function:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s2">"test suite description goes here"</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s2">"test description"</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="c1">// your test assertion goes here</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Grouping related tests within <code class="highlighter-rouge">describe</code> blocks and describing each individual test within an <code class="highlighter-rouge">it</code> call keeps your tests self documenting.</p>
+
+<p><strong>Installing Mocha</strong></p>
+
+<p>Mocha can be installed using Node Package Manager, simply run the command in terminal</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">-g</span> mocha
+</code></pre></div></div>
+
+<p>If you encounter permission denied issue with the previous command then run the same command with sudo</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> mocha
+</code></pre></div></div>
+<p>Let’s write a basic test</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">assert</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"assert"</span><span class="p">);</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s2">"test suite"</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"test case"</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="c1">//assert that 2 is equal to 2</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"asynchronous test case"</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">){</span> <span class="c1">// done callback for asynchronous testPS1="$ "</span>
+
+        <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+           <span class="c1">// call done callback to complete the test</span>
+           <span class="nx">done</span><span class="p">();</span>
+       <span class="p">},</span><span class="mi">1000</span><span class="p">);</span>
+
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">'it'</code> will pass the test case if the test does not throw errors, so we have to use assertions to validate and throw errors if our validations fail, in the above example we are using built-in Node.js ‘<strong>assert</strong>’ module, assert will throw errors when assertions fail. For asynchronous tests like HTTP calls or database access we can use done() callback after our asynchronous test has been completed</p>
+
+<p>save the above code to file intro.js and run</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>mocha intro.js
+</code></pre></div></div>
+
+<p><img src="/assets/b1.jpg" alt="b1" /></p>
+
+<h2 id="sample-application">Sample Application</h2>
+
+<p>Let’s Build a sample REST API application for storing and retrieving Employees using TDD approach. we will use MEAN stack to build our sample app. you can download the final source code from <a href="https://github.com/sharan01/mochademo">here</a> and you can play with the front end app here http://test-mocha.us-west-2.elasticbeanstalk.com/</p>
+
+<p><strong>Prerequisites</strong></p>
+
+<ul>
+  <li>Node 6.11 or greater</li>
+  <li>MongoDB</li>
+</ul>
+
+<h2 id="project-setup"><strong>Project Setup</strong></h2>
+
+<p><strong>Install express-generator</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">-g</span> express-generator
+</code></pre></div></div>
+<p><strong>Create a new express Project</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>express employees
+<span class="nv">$ </span><span class="nb">cd </span>employees
+<span class="nv">$ </span>npm <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>We will use <a href="http://mongoosejs.com/">mongoose</a> ODM for MongoDB and express-validator to validate input to our APIs, let’s install them</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">--save</span> mongoose express-validator
+</code></pre></div></div>
+<p>Let’s install test dependencies</p>
+
+<ul>
+  <li>mocha</li>
+  <li>chai</li>
+  <li>chai-http</li>
+  <li>istanbul</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">--save-dev</span> mocha chai chai-http istanbul
+</code></pre></div></div>
+
+<p><a href="http://chaijs.com/">Chai</a> is a assertions library that allows us to write <a href="http://chaijs.com/api/bdd/">BDD</a> style chainable assertions, chai-http is a plugin for chai. We will use chai-http to test our REST APIs and we will use <a href="https://istanbul.js.org/">istanbul</a> to generate code coverage report</p>
+
+<h2 id="configuring-project-for-tdd"><strong>Configuring Project for TDD</strong></h2>
+
+<p>Create a config.json file in the conf folder an paste below json</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"production"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"DBHost"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mongodb://127.0.0.1:27017/production"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"port"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"development"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"DBHost"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mongodb://127.0.0.1:27017/development"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"port"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3000</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"test"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"DBHost"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mongodb://127.0.0.1:27017/test"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"port"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">4000</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p>Import config.json file in app.js</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// get environment variable</span>
+<span class="kd">const</span> <span class="nx">environment</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="s1">''</span> <span class="s2">"development"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./conf/config.json"</span><span class="p">)[</span> <span class="nx">environment</span> <span class="p">];</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">port</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">port</span><span class="p">;</span>
+
+<span class="nx">mongoose</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">DBHost</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+<p>In the above code snippet, the DBHost and port number are determined based on execution environment. In test environment, the config will be the test object from config.json and our tests will run on different port number and connect to different database and will not affect development or production database</p>
+
+<p>and finally, export app module from bin/www file, we will use the app module from our tests</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">app</span><span class="p">;</span>
+</code></pre></div></div>
+<h2 id="writing-tests-for-apis">Writing tests for APIs</h2>
+
+<p>our REST API will have 5 endpoints</p>
+
+<ul>
+  <li>POST /api/employees -&gt; add new employee</li>
+  <li>GET /api/employees -&gt; get all employees</li>
+  <li>GET /api/employees/:id -&gt; get employee by id</li>
+  <li>PUT /api/employees -&gt; update employee</li>
+  <li>DELETE /api/employee/:id -&gt; delete employee by id</li>
+</ul>
+
+<p><strong>Let’s specify rules for the first API POST /api/employees</strong></p>
+
+<ul>
+  <li>It should add new employee and return the id of the employee</li>
+  <li>It should return HTTP response status 409 conflict, when employee with email already exists</li>
+  <li>It should return HTTP response status 422 Invalid params when request body contains invalid parameters</li>
+</ul>
+
+<p>We will write test cases based on the above specification, by default mocha looks for test files in ‘test’ folder in our project, so create a file named 01_POST_employess,js</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//01_POST_employees.js</span>
+
+<span class="c1">// import test dependencies</span>
+
+<span class="c1">// chai assertions library</span>
+<span class="kd">const</span> <span class="nx">chai</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"chai"</span><span class="p">);</span>
+
+<span class="c1">// chai-http http plugin for accessing rest apis</span>
+<span class="kd">const</span> <span class="nx">chaiHttp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"chai-http"</span><span class="p">);</span>
+
+<span class="c1">// expect is a bdd style assertions from chai</span>
+<span class="kd">const</span> <span class="nx">expect</span> <span class="o">=</span> <span class="nx">chai</span><span class="p">.</span><span class="nx">expect</span><span class="p">;</span>
+
+<span class="c1">// our application server</span>
+<span class="kd">const</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../bin/www"</span><span class="p">);</span>
+
+<span class="c1">// use chai-http plugin</span>
+<span class="nx">chai</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">chaiHttp</span><span class="p">);</span>
+
+<span class="c1">// test suite</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s2">"POST /api/employees"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">// our sample employee object to add</span>
+    <span class="kd">const</span> <span class="nx">sampleEmployee</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">name</span><span class="p">:</span><span class="s2">"max verstappen"</span><span class="p">,</span>
+        <span class="na">designation</span><span class="p">:</span><span class="s2">"Driver"</span><span class="p">,</span>
+        <span class="na">email</span><span class="p">:</span><span class="s2">"max@domain.com"</span>
+    <span class="p">};</span>
+
+    <span class="c1">// test case</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"it should add employee and return _id with response status 201"</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">chai</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">server</span><span class="p">)</span> <span class="c1">// use our application server</span>
+            <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">"/api/employees"</span><span class="p">)</span> <span class="c1">// api path</span>
+            <span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">sampleEmployee</span><span class="p">)</span> <span class="c1">// request body</span>
+            <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="c1">// on response callback</span>
+                <span class="c1">// expect response to have status 201</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">response</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">201</span><span class="p">);</span>
+                <span class="c1">// expect response body to be a json object</span>
+                <span class="c1">// and to have property named _id</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">a</span><span class="p">(</span><span class="s2">"object"</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">property</span><span class="p">(</span><span class="s2">"_id"</span><span class="p">);</span>
+
+                <span class="nx">done</span><span class="p">();</span> <span class="c1">// done callback</span>
+            <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"it should return 409 conflict, employee already exists"</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">chai</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">server</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">"/api/employees"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">sampleEmployee</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">409</span><span class="p">);</span>
+                <span class="nx">done</span><span class="p">();</span>
+            <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="c1">//invalid input test case</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"it should return status 422 , invalid params, params missing"</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">chai</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">server</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">"/api/employees"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s2">"max"</span> <span class="p">})</span>
+            <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">422</span><span class="p">);</span>
+                <span class="nx">done</span><span class="p">();</span>
+            <span class="p">});</span>
+    <span class="p">});</span>
+    <span class="c1">//invalid input test case</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"it should return status 422 , invalid params, empty name"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">chai</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">server</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">"/api/employees"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s2">""</span> <span class="p">})</span>
+            <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">422</span><span class="p">);</span>
+                <span class="nx">done</span><span class="p">();</span>
+            <span class="p">});</span>
+    <span class="p">});</span>
+
+<span class="p">});</span>
+</code></pre></div></div>
+<p>run the test cases</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<p><img src="/assets/screenshot-from-2017-11-15-18-11-44.png" alt="Screenshot from 2017-11-15 18-11-44" /></p>
+
+<p>Our test cases failed as expected, as we have not implemented <strong>POST /api/employees</strong> API yet. Next step is to write** POST /api/empoyees** API, we will not do that here you can get the implementation code from here https://github.com/sharan01/mochademo
+After implementing the API let us run the test again</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<p><img src="/assets/1success.png" alt="1success" /></p>
+
+<p>All our test cases for <strong>POST /api/employees</strong> have been passed, now let us move to our next API, GET /api/employees, create a file named 02_GET_employees.js</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 02_GET_employees.js 
+
+const chai <span class="o">=</span> require<span class="o">(</span><span class="s2">"chai"</span><span class="o">)</span><span class="p">;</span>
+const expect <span class="o">=</span> chai.expect<span class="p">;</span>
+const chaiHttp <span class="o">=</span> require<span class="o">(</span><span class="s2">"chai-http"</span><span class="o">)</span><span class="p">;</span>
+const server <span class="o">=</span> require<span class="o">(</span><span class="s2">"../bin/www"</span><span class="o">)</span><span class="p">;</span>
+
+chai.use<span class="o">(</span>chaiHttp<span class="o">)</span><span class="p">;</span>
+
+// <span class="nb">test </span>suite
+describe<span class="o">(</span><span class="s2">"GET /api/employees"</span>, <span class="o">()</span> <span class="o">=&gt;</span> <span class="o">{</span>
+
+    it<span class="o">(</span><span class="s2">"it should return employees array with size 1"</span>,<span class="o">(</span><span class="k">done</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
+
+        chai.request<span class="o">(</span>server<span class="o">)</span>
+            .get<span class="o">(</span><span class="s2">"/api/employees"</span><span class="o">)</span>
+            .end<span class="o">((</span>err, res<span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                expect<span class="o">(</span>res<span class="o">)</span>.to.have.status<span class="o">(</span>200<span class="o">)</span><span class="p">;</span>
+                expect<span class="o">(</span>res.body<span class="o">)</span>.to.be.a<span class="o">(</span><span class="s2">"array"</span><span class="o">)</span>.of.length<span class="o">(</span>1<span class="o">)</span><span class="p">;</span>
+                // expect first employee to have these properties
+                expect<span class="o">(</span>res.body[0]<span class="o">)</span>.to.have.property<span class="o">(</span><span class="s2">"_id"</span><span class="o">)</span><span class="p">;</span>
+                expect<span class="o">(</span>res.body[0]<span class="o">)</span>.to.have.property<span class="o">(</span><span class="s2">"name"</span><span class="o">)</span><span class="p">;</span>
+                expect<span class="o">(</span>res.body[0]<span class="o">)</span>.to.have.property<span class="o">(</span><span class="s2">"email"</span><span class="o">)</span><span class="p">;</span>
+                expect<span class="o">(</span>res.body[0]<span class="o">)</span>.to.have.property<span class="o">(</span><span class="s2">"designation"</span><span class="o">)</span><span class="p">;</span>
+                <span class="k">done</span><span class="o">()</span><span class="p">;</span>
+            <span class="o">})</span><span class="p">;</span>
+    <span class="o">})</span><span class="p">;</span>
+
+<span class="o">})</span><span class="p">;</span>
+</code></pre></div></div>
+<p>Run test cases</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<p><img src="/assets/2fail.png" alt="2fail" /></p>
+
+<p>GET /api/employees test cases failed, now implement the get employees API and run test again</p>
+
+<p><img src="/assets/2success.png" alt="2success" /></p>
+
+<p>Now we will move on to <strong>GET /api/employees/:id</strong> API, in this API we will get employee by id, specify test cases for this API in 03_GET_employees_id.js file</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">chai</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"chai"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">expect</span> <span class="o">=</span> <span class="nx">chai</span><span class="p">.</span><span class="nx">expect</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">chaiHttp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"chai-http"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../bin/www"</span><span class="p">);</span>
+
+<span class="nx">chai</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">chaiHttp</span><span class="p">);</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s2">"GET /api/employees/:id"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">let</span> <span class="nx">_id</span><span class="p">;</span>
+
+    <span class="kd">const</span> <span class="nx">sampleEmployee</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Christian Horner"</span><span class="p">,</span>
+      <span class="na">designation</span><span class="p">:</span> <span class="s2">"Team Principal"</span><span class="p">,</span>
+      <span class="na">email</span><span class="p">:</span> <span class="s2">"christian@domain.com"</span>
+    <span class="p">};</span>
+
+    <span class="c1">// before hook which run before our test cases in this test suite</span>
+    <span class="c1">// first we add an employee and get id of that employee</span>
+    <span class="nx">before</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">chai</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">server</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">"/api/employees"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">sampleEmployee</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">201</span><span class="p">);</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">a</span><span class="p">(</span><span class="s2">"object"</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">property</span><span class="p">(</span><span class="s2">"_id"</span><span class="p">);</span>
+                <span class="c1">// store id for use in below test case</span>
+                <span class="nx">_id</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">_id</span><span class="p">;</span>
+
+                <span class="nx">done</span><span class="p">();</span>
+            <span class="p">});</span>
+
+    <span class="p">});</span>
+
+    <span class="c1">//</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"it should return employee inserted in before hook"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">chai</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">server</span><span class="p">)</span>
+            <span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">"/api/employees/"</span><span class="o">+</span><span class="nx">_id</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+                <span class="c1">// assert returned employee is equal to sample employee</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">a</span><span class="p">(</span><span class="s2">"object"</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">property</span><span class="p">(</span><span class="s2">"name"</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="nx">sampleEmployee</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">designation</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="nx">sampleEmployee</span><span class="p">.</span><span class="nx">designation</span><span class="p">);</span>
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">email</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="nx">sampleEmployee</span><span class="p">.</span><span class="nx">email</span><span class="p">);</span>
+
+                <span class="nx">done</span><span class="p">();</span>
+            <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s2">"it should return status 404 when given invalid id"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">){</span>
+
+        <span class="nx">chai</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">server</span><span class="p">)</span>
+            <span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">"/api/employees/wrongid"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+                <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">404</span><span class="p">);</span>
+
+                <span class="nx">done</span><span class="p">();</span>
+            <span class="p">});</span>
+    <span class="p">});</span>
+
+<span class="p">});</span>
+</code></pre></div></div>
+<p>you will notice we have used new keyword ‘before’, before is used in test suite ‘describe’, ‘before’ is used when we need any other additional data before running test cases, for out test case we need a valid employee id so we use ‘before’ hook to add a new employee and get id of that employee to use in our test case. similarly, there is ‘after’ hook which runs after test cases have been executed, we can use after hook to clean up any data created by test cases</p>
+
+<p>let us run the test again</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<p><img src="/assets/3fail.png" alt="3fail" /></p>
+
+<p>GET /api/employees /:id test cases failed, now implement the get employees by id API and run test again</p>
+
+<p><img src="/assets/3success.png" alt="3success" /></p>
+
+<p>You can follow same steps to write test cases and implement APIs for</p>
+
+<ul>
+  <li>update employee</li>
+  <li>delete employee</li>
+</ul>
+
+<p>Finally, let’s run test after implementing above APIs</p>
+
+<p><img src="/assets/screenshot-from-2017-11-15-17-56-10.png" alt="Screenshot from 2017-11-15 17-56-10" /></p>
+
+<p>Great all our tests have passed, now you can further write more test cases to cover all possible edge cases</p>
+
+<p>In the above example we just had 5 APIs, we could have easily tested them with <a href="https://www.getpostman.com/">Postman</a> and avoid all the extra work, but if you are developing medium to large scale project, then testing each API every time you add or modify functionality is a very time-consuming process, If you follow TDD process then testing each and every API can be done with a single command.</p>
+
+<h3 id="code-coverage-with-istanbul">Code Coverage with Istanbul</h3>
+
+<p>Code Coverage is a measurement of how many lines/blocks of your code are executed while the automated tests are running. Code coverage basically tests that how much of your code is covered under tests</p>
+
+<p>Install and run the Istanbul command with mocha</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">-g</span> istanbul
+
+<span class="nv">$ </span>istanbul cover <span class="nt">--report</span> html _mocha
+</code></pre></div></div>
+
+<p>Istanbul will generate HTML report in our project folder, you can open it in browser</p>
+
+<p><img src="/assets/screenshot-from-2017-11-15-15-27-26.png" alt="Screenshot from 2017-11-15 15-27-26" /></p>
+
+<p>as you can see our tests cover 87% lines of code in the project, you can navigate to individual files to see which lines are not covered under our tests</p>
+
+<p><img src="/assets/screenshot-from-2017-11-15-15-43-12.png" alt="Screenshot from 2017-11-15 15-43-12" /></p>
+
+<p>the lines highlighted in pink were not run during execution of our test cases, we can add new test cases to cover untested code, you can read more about code coverage here <a href="https://martinfowler.com/bliki/TestCoverage.html">Test Coverage</a></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this tutorial, we have used Test driven development approach for building a REST API, although TDD will not make your application completely bug proof, you will certainly catch bugs quickly early in the development process and fix them, instead of catching them in later stages of development process and extending the deadlines</p>
+
+<p><strong>More Resources</strong></p>
+
+<p>https://gist.github.com/jbranchaud/60146038904b78f22126</p>
+
+<p>https://www.youtube.com/watch?v=JjqKQ8ezwKQ</p>
+
+  </div><a class="u-url" href="/2019/02/24/test-driven-development-in-node-js-with-mocha.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Your awesome title</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Your awesome title</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jekyll"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jekyll</span></a></li><li><a href="https://www.twitter.com/jekyllrb"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">jekyllrb</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
